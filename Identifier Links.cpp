@@ -88,6 +88,11 @@ void removeId(std::string id) {
 
 int main()
 {
+	std::set<std::pair<std::string, std::string>> linksToCheck;
+	linksToCheck.insert(std::make_pair("markus", "christina"));
+	linksToCheck.insert(std::make_pair("sarah", "christina"));
+	linksToCheck.insert(std::make_pair("markus", "jordan"));
+
 	addLink("sarah", "jason");
 	addLink("jason", "jordan");
 	addLink("jordan", "sam");
@@ -98,22 +103,12 @@ int main()
 	addLink("mike", "christina");
 	addLink("markus", "sam");
 	
-	auto result1 = isLinked("sarah", "christina"); // Returns True, Correctly
-	if (result1)
-		confirmedLinks.push_back(std::make_pair("sarah", "christina"));
-	Reset();
-
-	auto result2 = isLinked("markus", "jordan"); // Returns False, Correctly
-	if (result2)
-		confirmedLinks.push_back(std::make_pair("markus", "jordan"));
-	Reset();
-
-	auto result3 = isLinked("markus", "christina"); // Returns True, Coorectly
-	if (result3)
-		confirmedLinks.push_back(std::make_pair("markus", "christina"));
-
-	confirmedLinks.clear();
-	Reset();
+	for (auto pair : linksToCheck) {
+		auto result = isLinked(pair.first, pair.second);
+		if (result)
+			confirmedLinks.push_back(pair);
+		Reset();
+	}
 
 	return 0;
 }
